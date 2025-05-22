@@ -1,51 +1,108 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+/* KLEURENPALET (gebaseerd op postkaart) */
+:root {
+  --rood: #e15e5a;
+  --geel: #f3d65b;
+  --roze: #d287ba;
+  --groen: #76c372;
+  --zwart: #111;
+  --wit: #f9f9f9;
 }
 
 body {
-  background-color: #f4f4f4;
-  color: #333;
-  line-height: 1.6;
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  background-color: var(--wit);
+  color: var(--zwart);
+  scroll-behavior: smooth;
 }
 
-header {
-  background-color: #111;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+nav {
+  background-color: var(--rood);
   color: white;
-  padding: 40px 20px;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: var(--geel);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero {
+  background: linear-gradient(120deg, var(--roze), var(--geel));
+  color: var(--zwart);
   text-align: center;
+  padding: 4rem 2rem;
 }
 
-header h1 {
-  font-size: 2.5rem;
+.hero h2 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
 }
 
-header p {
-  font-size: 1.2rem;
-  margin-top: 10px;
-  color: #ccc;
+.panel {
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-section {
-  padding: 40px 20px;
-  max-width: 800px;
-  margin: 0 auto;
+.about {
+  background-color: var(--groen);
+  color: white;
 }
 
-.projects .project {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 20px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+.projects {
+  background-color: var(--roze);
+  color: white;
+}
+
+.contact {
+  background-color: var(--geel);
+  color: var(--zwart);
+}
+
+.content {
+  max-width: 700px;
+}
+
+.project-card {
+  background-color: var(--wit);
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--zwart);
+}
+
+.project-card h3 {
+  margin-top: 0;
+  color: var(--rood);
 }
 
 footer {
-  background-color: #222;
-  color: #aaa;
+  background-color: var(--zwart);
+  color: var(--wit);
   text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+  padding: 1rem;
 }
