@@ -4,61 +4,342 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Luiz Fernandez – Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --rood: #e15e5a;
+        --geel: #f3d65b;
+        --roze: #d287ba;
+        --groen: #76c372;
+        --zwart: #111;
+        --wit: #f9f9f9;
+        --rust: #f4f1ec; /* zacht rustgevend beige */
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--zwart);
+        scroll-behavior: smooth;
+        background-color: var(--rust);
+      }
+
+      .wrapper { display: flex; flex-direction: column; min-height: 100vh; position: relative; z-index: 2; }
+
+      nav {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(6px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      nav ul { list-style: none; display: flex; gap: 1.5rem; }
+      nav a { color: var(--zwart); text-decoration: none; font-weight: bold; }
+      nav a:hover { color: var(--rood); }
+
+      .intro {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .half {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        transition: transform 1.5s ease;
+        z-index: 1;
+      }
+      .left { left: 0; background-image: url('img/split2.jpg'); transform: translateX(-100%); }
+      .right { right: 0; background-image: url('img/split1.jpg'); transform: translateX(100%); }
+      .intro.loaded .left { transform: translateX(0); }
+      .intro.loaded .right { transform: translateX(0); }
+      .intro-text {
+        position: absolute;
+        bottom: 8%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: clamp(1.1rem, 2.5vw, 2rem);
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 0.75rem 1.25rem;
+        border-radius: 12px;
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 1s ease 1.2s;
+        max-width: 90%;
+        text-align: center;
+      }
+      .intro.loaded .intro-text { opacity: 1; }
+
+      .hero {
+        padding: 4rem 2rem;
+        text-align: center;
+        color: var(--zwart);
+      }
+      .hero h2 { font-size: 3rem; margin-bottom: 0.5rem; }
+
+      .panel {
+        padding: 4rem 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content {
+        max-width: 700px;
+        background: rgba(255,255,255,0.8);
+        backdrop-filter: blur(4px);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+
+      .project-grid {
+        position: relative;
+        padding: 4rem 2rem;
+        height: 800px;
+      }
+      .project-card {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+      .project-card img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+      }
+      .project-card span {
+        margin-top: 0.5rem;
+        font-weight: 600;
+        color: var(--zwart);
+      }
+      .project-card:hover {
+        transform: scale(1.05);
+      }
+
+      .cube {
+        margin-top: 2rem;
+        width: 150px;
+        height: 150px;
+        transform-style: preserve-3d;
+        animation: rotateCube 10s infinite linear;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+      .modal-content {
+        background: var(--wit);
+        padding: 2rem;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 12px;
+        position: relative;
+      }
+      .modal-content img,
+      .modal-content video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 1rem;
+      }
+      .close {
+        font-size: 2rem;
+        cursor: pointer;
+        position: absolute;
+        right: 1rem;
+        top: 0.5rem;
+      }
+
+      footer {
+        background: rgba(0,0,0,0.85);
+        color: var(--wit);
+        text-align: center;
+        padding: 1rem;
+        margin-top: auto;
+      }
+
+      @keyframes spinCube {
+        from { transform: rotateX(0deg) rotateY(0deg); }
+        to { transform: rotateX(360deg) rotateY(360deg); }
+      }
+
+      @media (max-width: 768px) {
+        .half { width: 50vw; height: 100vh; }
+        .intro { flex-direction: row; width: 100vw; height: 100vh; overflow: hidden; }
+        .intro-text {
+          font-size: 1.1rem;
+          padding: 0.75rem 1rem;
+          max-width: 300px;
+          .left {
+    background-image: url('img/split2.jpg');
+  }
+
+  .right {
+    background-image: url('img/split1.jpg');
+  }
+        }
+        .modal-content {
+          max-height: none !important;
+          height: auto !important;
+          width: 90% !important;
+          padding: 1rem !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="wrapper">
+      <!-- Navigatie -->
       <nav>
-        <h1>LF</h1>
+<img src="img/avatar.svg" alt="Luiz Avatar" style="height: 40px;">
         <ul>
+          <li><a href="#projects">Projects</a></li>
           <li><a href="#about">Over mij</a></li>
-          <li><a href="#projects">Werk</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
 
+      <!-- Intro -->
+      <section class="intro" id="intro">
+  <div class="half left"></div>
+  <div class="half right"></div>
+  <div class="intro-text">Luiz Fernandez – Grafisch ontwerper in opleiding</div>
+</section>
+
+
+      <!-- Hero -->
       <header class="hero">
-        <h2>Hey, ik ben Luiz</h2>
-        <p>Student grafisch ontwerp met een passie voor lijn, kleur en beeld</p>
+        <h2>Projects</h2>
+        <p>Dit zijn verschillende projecten die ik heb gemaakt in mijn schoolcarrière.</p>
       </header>
 
-      <section id="about" class="panel about">
-        <div class="content">
-          <h2>Over mij</h2>
-          <p>
-            Ik werk graag met kleur en compositie om visueel werk te maken dat
-            opvalt maar toch overzichtelijk blijft. Mijn stijl is speels,
-            grafisch en eigenzinnig. Op deze site toon ik een selectie van
-            recent werk.
-          </p>
-        </div>
-      </section>
+      <!-- Project Grid -->
+<section id="projects" class="project-grid">
+  <!-- PROJECT 1 -->
+  <div class="project-card big" style="top: 0; left: 10%;" onclick="openProject('project1')">
+    <img src="img/postcard.svg" alt="Project 1">
+    <span>Postkaart “Lijn & Emotie”</span>
+  </div>
 
-      <section id="projects" class="panel projects">
-        <div class="content">
-          <h2>Mijn werk</h2>
-          <div class="project-card">
-            <h3>Postkaart "Lijn & Emotie"</h3>
-            <p>
-              Een visuele vertaling van emoties in lijn en kleur, gebaseerd op
-              zelfreflectie en data.
-            </p>
-          </div>
-        </div>
-      </section>
+  <!-- PROJECT 2 -->
+  div class="project-card big" style="top: 500px; left: 10%;" onclick="openProject('project3')">
+    <img src="img/3D_img1_luiz.png" alt="Project 2">
+    <span>3D Motion Study</span>
+  </div>
 
+
+</section>
+
+
+
+
+
+      <!-- About -->
+<section id="about" class="panel about">
+  <div class="content" style="position: relative; overflow: hidden;">
+    <h2 style="text-align: center;">Over mij</h2>
+    <p style="text-align: center; font-size: 1.1rem; line-height: 1.6; max-width: 600px; margin: 0 auto 2rem auto;">
+      Hey! Ik ben Luiz, een 19-jarige grafisch ontwerper met een zwak voor kleur, lijnen en alles wat een beetje raar en speels is. Ik combineer graag traditionele technieken met digitale tools en experimenteer met visuele ritmes, emoties en 3D. 
+    </p>
+    
+    <!-- 3D draaiende kubus animatie -->
+    <div style="width: 200px; height: 200px; margin: 0 auto; perspective: 800px;">
+      <div style="
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        animation: spinCube 10s infinite linear;
+        position: relative;
+      ">
+        <div style="
+          position: absolute;
+          width: 100%; height: 100%;
+          background: var(--groen);
+          transform: rotateY(0deg) translateZ(100px);
+        "></div>
+        <div style="
+          position: absolute;
+          width: 100%; height: 100%;
+          background: var(--roze);
+          transform: rotateY(90deg) translateZ(100px);
+        "></div>
+        <div style="
+          position: absolute;
+          width: 100%; height: 100%;
+          background: var(--geel);
+          transform: rotateY(180deg) translateZ(100px);
+        "></div>
+        <div style="
+          position: absolute;
+          width: 100%; height: 100%;
+          background: var(--rood);
+          transform: rotateY(-90deg) translateZ(100px);
+        "></div>
+        <div style="
+          position: absolute;
+          width: 100%; height: 100%;
+          background: var(--zwart);
+          transform: rotateX(90deg) translateZ(100px);
+        "></div>
+        <div style="
+          position: absolute;
+          width: 100%; height: 100%;
+          background: var(--wit);
+          transform: rotateX(-90deg) translateZ(100px);
+        "></div>
+      </div>
+    </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <style>
+      @keyframes spinCube {
+        from { transform: rotateX(0deg) rotateY(0deg); }
+        to { transform: rotateX(360deg) rotateY(360deg); }
+      }
+    </style>
+  </div>
+</section>
+
+      
+
+      <!-- Contact -->
       <section id="contact" class="panel contact">
         <div class="content">
           <h2>Contact</h2>
-          <p>
-            Stuur me een DM op
-            <a href="https://www.instagram.com" target="_blank">Instagram</a> of
-            een mailtje naar luiz@example.com.
-          </p>
+          <p>Stuur me een DM op <a href="https://www.instagram.com/luiz.frndz/" target="_blank">Instagram</a> of een mailtje naar easyluiz.f@gmail.com</p>
         </div>
       </section>
 
@@ -66,5 +347,65 @@
         <p>&copy; 2025 Luiz Fernandez</p>
       </footer>
     </div>
+
+    <!-- Project modal -->
+    <div id="projectModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeProject()">&times;</span>
+        <div id="projectDetails"></div>
+      </div>
+    </div>
+
+    <script>
+      /* Intro-animatie */
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.getElementById('intro').classList.add('loaded');
+        }, 500);
+      });
+
+      const content = {
+  project1: `
+    <h2>Postkaart "Lijn & Emotie"</h2>
+    <p>In dit project visualiseerde ik mijn gemoedstoestand via kleurvlakken en lijnstructuren.</p>
+    <img src='img/project1-1.jpg' style='width:100%; margin-top:1rem;'>
+  `,
+  project2: `
+    <h2>Project "Typografie & Vorm"</h2>
+    <p>Ontwikkeld als studie naar ritme, herhaling en leesbaarheid in typografie. Met lijnen als dynamisch element.</p>
+    <img src='img/project2-1.jpg' style='width:100%; margin-top:1rem;'>
+  `
+};  
+
+function openProject(id) {
+  const content = {
+  project1: `
+    <h2>Postkaart "Lijn & Emotie"</h2>
+    <p>In dit project visualiseerde ik mijn gemoedstoestand via kleurvlakken en lijnstructuren. Hieronder zie je een selectie van 5 beelden uit dit proces.</p>
+    <img src='img/dataei.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src='img/datawijn.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src='img/dataschoen.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src='img/dataklok.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src='img/datagsm.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+  `,
+  project2: `
+    <h2>Datagedreven Vormexperiment</h2>
+    <p>In dit project heb ik 3 objecten omgezet naar vorm en lijnstructuur op basis van data. Het resultaat is een reeks abstracte grafische visualisaties.</p>
+    <img src='img/3D1.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src='img/3D2.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src='img/3D3.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+  `
+};
+
+    document.getElementById("projectDetails").innerHTML = content[id] || "<p>Project niet gevonden.</p>";
+    document.getElementById("projectModal").style.display = "flex";
+  }
+
+  function closeProject() {
+    document.getElementById("projectModal").style.display = "none";
+  }
+
+  
+    </script>
   </body>
 </html>
