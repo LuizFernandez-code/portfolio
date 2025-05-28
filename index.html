@@ -6,6 +6,9 @@
     <title>Luiz Fernandez – Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet" />
     <style>
+      /* ------------------
+         KLEURENPALET 
+      ------------------ */
       :root {
         --rood: #e15e5a;
         --geel: #f3d65b;
@@ -13,18 +16,27 @@
         --groen: #76c372;
         --zwart: #111;
         --wit: #f9f9f9;
-        --rust: #f4f1ec; /* zacht rustgevend beige */
       }
 
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      body {
-        font-family: "Space Grotesk", sans-serif;
-        color: var(--zwart);
-        scroll-behavior: smooth;
-        background-color: var(--rust);
+     body {
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--zwart);
+  scroll-behavior: smooth;
+  background-color: var(--wit); /* 👈 gewone achtergrondkleur */
+}
+
+
+      @keyframes gradientShift {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
 
+      /* ------------------
+         Layout & Navigatie
+      ------------------ */
       .wrapper { display: flex; flex-direction: column; min-height: 100vh; position: relative; z-index: 2; }
 
       nav {
@@ -38,61 +50,90 @@
         top: 0;
         z-index: 5;
       }
+      nav h1 { font-size: 1.8rem; }
       nav ul { list-style: none; display: flex; gap: 1.5rem; }
       nav a { color: var(--zwart); text-decoration: none; font-weight: bold; }
       nav a:hover { color: var(--rood); }
 
+      /* ------------------
+         Intro-animatie
+      ------------------ */
       .intro {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-      }
-      .half {
-        position: absolute;
-        top: 0;
-        width: 50%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        transition: transform 1.5s ease;
-        z-index: 1;
-      }
-      .left { left: 0; background-image: url('img/split2.jpg'); transform: translateX(-100%); }
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.half {
+  flex: 1;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 1.5s ease;
+}
+
+/* Linker helft */
+.left {
+  background-image: url('img/split2.jpg');
+  transform: translateX(-100%);
+}
+
+/* Rechter helft */
+.right {
+  background-image: url('img/split1.jpg');
+  transform: translateX(100%);
+}
+
+/* Animatie aan */
+.intro.loaded .left {
+  transform: translateX(0);
+}
+
+.intro.loaded .right {
+  transform: translateX(0);
+}
+
+/* Tekst */
+.intro-text {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  z-index: 10;
+  text-align: center;
+  max-width: 90%;
+}
+
+      .left  { left: 0;  background-image: url('img/split2.jpg'); transform: translateX(-100%); }
       .right { right: 0; background-image: url('img/split1.jpg'); transform: translateX(100%); }
-      .intro.loaded .left { transform: translateX(0); }
+      .intro.loaded .left  { transform: translateX(0); }
       .intro.loaded .right { transform: translateX(0); }
+
       .intro-text {
-        position: absolute;
-        bottom: 8%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: clamp(1.1rem, 2.5vw, 2rem);
-        font-weight: 600;
-        background: rgba(255, 255, 255, 0.85);
-        padding: 0.75rem 1.25rem;
-        border-radius: 12px;
-        z-index: 2;
-        opacity: 0;
-        transition: opacity 1s ease 1.2s;
-        max-width: 90%;
-        text-align: center;
+        position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);
+        font-size: 2rem; font-weight: 600;
+        background: rgba(255,255,255,0.8); padding: 0.5rem 1rem; border-radius: 12px;
+        opacity: 0; transition: opacity 1s ease 1.2s;
       }
       .intro.loaded .intro-text { opacity: 1; }
 
-      .hero {
-        padding: 4rem 2rem;
-        text-align: center;
-        color: var(--zwart);
-      }
+      /* ------------------
+         Hero
+      ------------------ */
+      .hero { padding: 4rem 2rem; text-align: center; color: var(--zwart); }
       .hero h2 { font-size: 3rem; margin-bottom: 0.5rem; }
 
-      .panel {
-        padding: 4rem 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+      /* ------------------
+         Panels
+      ------------------ */
+      .panel { padding: 4rem 2rem; display: flex; justify-content: center; align-items: center; }
+      .about, .projects, .contact { background: transparent; }
       .content {
         max-width: 700px;
         background: rgba(255,255,255,0.8);
@@ -102,115 +143,139 @@
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       }
 
-      .project-grid {
-        position: relative;
-        padding: 4rem 2rem;
-        height: 800px;
-      }
-      .project-card {
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        transition: transform 0.3s ease;
-      }
-      .project-card img {
-        width: 200px;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 12px;
-        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-      }
-      .project-card span {
-        margin-top: 0.5rem;
-        font-weight: 600;
-        color: var(--zwart);
-      }
-      .project-card:hover {
-        transform: scale(1.05);
-      }
+      /* ------------------
+         Project rows
+      ------------------ */
+   .project-grid {
+  position: relative;
+  padding: 4rem 2rem;
+  height: 800px; /* was 700px, nu iets ruimer */
+}
 
-      .cube {
-        margin-top: 2rem;
-        width: 150px;
-        height: 150px;
-        transform-style: preserve-3d;
-        animation: rotateCube 10s infinite linear;
-      }
 
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 9999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.7);
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-      }
-      .modal-content {
-        background: var(--wit);
-        padding: 2rem;
-        max-width: 800px;
-        max-height: 90vh;
-        overflow-y: auto;
-        border-radius: 12px;
-        position: relative;
-      }
-      .modal-content img,
-      .modal-content video {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin-bottom: 1rem;
-      }
-      .close {
-        font-size: 2rem;
-        cursor: pointer;
-        position: absolute;
-        right: 1rem;
-        top: 0.5rem;
-      }
+.project-card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
 
-      footer {
-        background: rgba(0,0,0,0.85);
-        color: var(--wit);
-        text-align: center;
-        padding: 1rem;
-        margin-top: auto;
-      }
+.project-card img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
 
-      @keyframes spinCube {
-        from { transform: rotateX(0deg) rotateY(0deg); }
-        to { transform: rotateX(360deg) rotateY(360deg); }
-      }
+.project-card span {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: var(--zwart);
+}
 
+/* Grotere blokken */
+.project-card.big img {
+  width: 300px;
+  height: 300px;
+}
+
+
+.project-card:hover {
+  transform: scale(1.05);
+}
+
+.project-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+}
+
+.project-card span {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--zwart);
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cube {
+  margin-top: 2rem; /* voeg dit toe */
+  width: 150px;
+  height: 150px;
+  transform-style: preserve-3d;
+  animation: rotateCube 10s infinite linear;
+}
+
+.panel.about {
+  margin-top: 6rem; /* nieuw: duwt de hele 'Over mij'-sectie omlaag */
+}
+
+
+
+      /* ------------------
+         Modal
+      ------------------ */
+      .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 2rem; }
+      .modal-content { background: var(--wit); padding: 2rem; max-width: 800px; max-height: 90vh; overflow-y: auto; border-radius: 12px; position: relative; }
+      .close { font-size: 2rem; cursor: pointer; position: absolute; right: 1rem; top: 0.5rem; }
+
+      footer { background: rgba(0,0,0,0.85); color: var(--wit); text-align: center; padding: 1rem; margin-top: auto; }
+
+      /* Responsive */
       @media (max-width: 768px) {
-        .half { width: 50vw; height: 100vh; }
-        .intro { flex-direction: row; width: 100vw; height: 100vh; overflow: hidden; }
-        .intro-text {
-          font-size: 1.1rem;
-          padding: 0.75rem 1rem;
-          max-width: 300px;
-          .left {
-    background-image: url('img/split2.jpg');
+        .project-row img, .project-row .project-info { width: 100%; }
+        .project-row.left, .project-row.right { flex-direction: column; }
+      }
+
+
+@media (max-width: 768px) {
+  .intro {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
   }
 
-  .right {
-    background-image: url('img/split1.jpg');
+  .half {
+    width: 50vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transform: none !important;
+    position: relative !important;
   }
-        }
-        .modal-content {
-          max-height: none !important;
-          height: auto !important;
-          width: 90% !important;
-          padding: 1rem !important;
-        }
-      }
+
+  .intro-text {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    background: rgba(255,255,255,0.85);
+    border-radius: 12px;
+    z-index: 3;
+    width: 90%;
+    max-width: 300px;
+  }
+}
+
+
+
+
     </style>
   </head>
   <body>
@@ -248,12 +313,16 @@
   </div>
 
   <!-- PROJECT 2 -->
-  div class="project-card big" style="top: 500px; left: 10%;" onclick="openProject('project3')">
-    <img src="img/3D_img1_luiz.png" alt="Project 2">
-    <span>3D Motion Study</span>
+  <div class="project-card big" style="top: 220px; right: 10%;" onclick="openProject('project2')">
+    <img src="img/project4.png" alt="Project 2">
+    <span>Emotionele Visuals</span>
   </div>
 
-
+  <!-- PROJECT 3 (als je nog iets wil toevoegen later) -->
+  <div class="project-card big" style="top: 500px; left: 10%;" onclick="openProject('project3')">
+    <img src="img/3D_img1_luiz.png" alt="Project 3">
+    <span>3D Motion Study</span>
+  </div>
 </section>
 
 
@@ -367,43 +436,38 @@
       const content = {
   project1: `
     <h2>Postkaart "Lijn & Emotie"</h2>
-    <p>In dit project visualiseerde ik mijn gemoedstoestand via kleurvlakken en lijnstructuren.</p>
-    <img src='img/project1-1.jpg' style='width:100%; margin-top:1rem;'>
-  `,
-  project2: `
-    <h2>Project "Typografie & Vorm"</h2>
-    <p>Ontwikkeld als studie naar ritme, herhaling en leesbaarheid in typografie. Met lijnen als dynamisch element.</p>
-    <img src='img/project2-1.jpg' style='width:100%; margin-top:1rem;'>
-  `
-};  
-
-function openProject(id) {
-  const content = {
-  project1: `
-    <h2>Postkaart "Lijn & Emotie"</h2>
     <p>In dit project visualiseerde ik mijn gemoedstoestand via kleurvlakken en lijnstructuren. Hieronder zie je een selectie van 5 beelden uit dit proces.</p>
-    <img src='img/dataei.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
-    <img src='img/datawijn.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
-    <img src='img/dataschoen.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
-    <img src='img/dataklok.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
-    <img src='img/datagsm.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src="img/dataei.png" style="width:100%; margin-top:1rem; border-radius:12px;">
+    <img src="img/datawijn.png" style="width:100%; margin-top:1rem; border-radius:12px;">
+    <img src="img/dataschoen.png" style="width:100%; margin-top:1rem; border-radius:12px;">
+    <img src="img/dataklok.png" style="width:100%; margin-top:1rem; border-radius:12px;">
+    <img src="img/datagsm.png" style="width:100%; margin-top:1rem; border-radius:12px;">
   `,
   project2: `
+    <h2>3D Motion Study</h2>
+    <p>Een motion-exploratie met neonlicht en architectuur in een 3D-omgeving.</p>
+    <video controls style="width:100%; margin-top:1rem; border-radius:12px;">
+      <source src="img/architectuur_luiz.mp4" type="video/mp4">
+      Je browser ondersteunt dit videoformaat niet.
+    </video>
+  `,
+  project3: `
     <h2>Datagedreven Vormexperiment</h2>
     <p>In dit project heb ik 3 objecten omgezet naar vorm en lijnstructuur op basis van data. Het resultaat is een reeks abstracte grafische visualisaties.</p>
-    <img src='img/3D1.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
-    <img src='img/3D2.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
-    <img src='img/3D3.png' style='width:100%; margin-top:1rem; border-radius:12px;'>
+    <img src="img/3D1.png" style="width:100%; margin-top:1rem; border-radius:12px;">
+    <img src="img/3D2.png" style="width:100%; margin-top:1rem; border-radius:12px;">
+    <img src="img/3D3.png" style="width:100%; margin-top:1rem; border-radius:12px;">
   `
 };
 
-    document.getElementById("projectDetails").innerHTML = content[id] || "<p>Project niet gevonden.</p>";
-    document.getElementById("projectModal").style.display = "flex";
-  }
+function openProject(id) {
+  document.getElementById("projectDetails").innerHTML = content[id] || "<p>Project niet gevonden.</p>";
+  document.getElementById("projectModal").style.display = "flex";
+}
 
-  function closeProject() {
-    document.getElementById("projectModal").style.display = "none";
-  }
+function closeProject() {
+  document.getElementById("projectModal").style.display = "none";
+}
 
   
     </script>
