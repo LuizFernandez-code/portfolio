@@ -1,475 +1,305 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Luiz Fernandez – Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet" />
-    <style>
-      /* ------------------
-         KLEURENPALET 
-      ------------------ */
-      :root {
-        --rood: #e15e5a;
-        --geel: #f3d65b;
-        --roze: #d287ba;
-        --groen: #76c372;
-        --zwart: #111;
-        --wit: #f9f9f9;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luiz Fernandez – Portfolio</title>
+  <meta name="description" content="Portfolio van Luiz Fernandez: grafisch ontwerp, data-postkaart, 3D motion, en split-serie." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#ffffff; --panel:#f6f6f7; --text:#0b0b0c; --muted:#52525b; --ring:#0ea5e9; --border:#e5e7eb; --maxw:1100px; --radius:18px }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--maxw);margin-inline:auto;padding:24px}
 
-      * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Nav */
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px}
+    .brand{font-weight:800}
+    .links{display:flex;gap:14px;align-items:center}
+    .links a{padding:8px 12px;border-radius:999px}
+    .links a:hover{background:var(--panel)}
 
-     body {
-  font-family: "Space Grotesk", sans-serif;
-  color: var(--zwart);
-  scroll-behavior: smooth;
-  background-color: var(--wit); /* 👈 gewone achtergrondkleur */
-}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--text);color:var(--bg);font-weight:600;border:2px solid transparent}
+    .btn.outline{background:transparent;color:var(--text);border-color:var(--border)}
 
+    /* Hero */
+    .hero{padding:64px 24px 24px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:end}
+    .tag{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
+    h1{font-size:clamp(28px,4vw,48px);line-height:1.05;margin:12px 0 10px}
+    .sub{color:var(--muted);max-width:62ch}
+    .cta{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .hero-card{background:var(--panel);padding:16px;border-radius:var(--radius);border:1px solid var(--border)}
+    .avatar{aspect-ratio:1/1;object-fit:cover;border-radius:14px}
 
-      @keyframes gradientShift {
-        0%   { background-position: 0% 50%; }
-        50%  { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
+    /* Sections */
+    section{padding:48px 24px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .section-head h2{margin:0;font-size:clamp(22px,3vw,32px)}
+    .muted{color:var(--muted)}
 
-      /* ------------------
-         Layout & Navigatie
-      ------------------ */
-      .wrapper { display: flex; flex-direction: column; min-height: 100vh; position: relative; z-index: 2; }
+    /* Projects */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;display:flex;flex-direction:column}
+    .card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.1)}
+    .cover{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+    .card .body{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid var(--border);color:var(--muted);align-self:flex-start}
 
-      nav {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(6px);
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: sticky;
-        top: 0;
-        z-index: 5;
-      }
-      nav h1 { font-size: 1.8rem; }
-      nav ul { list-style: none; display: flex; gap: 1.5rem; }
-      nav a { color: var(--zwart); text-decoration: none; font-weight: bold; }
-      nav a:hover { color: var(--rood); }
+    /* About */
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .about .panel{background:var(--panel);padding:18px;border-radius:var(--radius);border:1px solid var(--border)}
 
-      /* ------------------
-         Intro-animatie
-      ------------------ */
-      .intro {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  overflow: hidden;
-}
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:24px;z-index:60}
+    .lightbox.open{display:flex}
+    .case{background:var(--bg);border:1px solid var(--border);border-radius:16px;max-width:min(1100px, 96vw);max-height:92vh;display:grid;grid-template-rows:auto 1fr auto}
+    .case header,.case footer{padding:14px 16px;border-bottom:1px solid var(--border)}
+    .case footer{border-top:1px solid var(--border);border-bottom:none}
+    .title{display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .close{border:none;background:transparent;color:var(--muted);font-size:22px;cursor:pointer}
+    .viewer{padding:12px;display:grid;grid-template-rows:1fr auto;gap:10px}
+    .stage{display:grid;place-items:center;overflow:auto}
+    .stage img{max-height:62vh;width:auto}
+    .thumbs{display:flex;gap:10px;overflow:auto;padding-block:6px}
+    .thumbs img{height:72px;width:auto;cursor:pointer;opacity:.85;border:2px solid transparent;border-radius:10px}
+    .thumbs img.active{opacity:1;border-color:var(--ring)}
+    .controls{display:flex;gap:8px;align-items:center}
+    .navbtn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
 
-.half {
-  flex: 1;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: transform 1.5s ease;
-}
-
-/* Linker helft */
-.left {
-  background-image: url('img/split2.jpg');
-  transform: translateX(-100%);
-}
-
-/* Rechter helft */
-.right {
-  background-image: url('img/split1.jpg');
-  transform: translateX(100%);
-}
-
-/* Animatie aan */
-.intro.loaded .left {
-  transform: translateX(0);
-}
-
-.intro.loaded .right {
-  transform: translateX(0);
-}
-
-/* Tekst */
-.intro-text {
-  position: absolute;
-  bottom: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
-  padding: 0.75rem 1.25rem;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 12px;
-  z-index: 10;
-  text-align: center;
-  max-width: 90%;
-}
-
-      .left  { left: 0;  background-image: url('img/split2.jpg'); transform: translateX(-100%); }
-      .right { right: 0; background-image: url('img/split1.jpg'); transform: translateX(100%); }
-      .intro.loaded .left  { transform: translateX(0); }
-      .intro.loaded .right { transform: translateX(0); }
-
-      .intro-text {
-        position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);
-        font-size: 2rem; font-weight: 600;
-        background: rgba(255,255,255,0.8); padding: 0.5rem 1rem; border-radius: 12px;
-        opacity: 0; transition: opacity 1s ease 1.2s;
-      }
-      .intro.loaded .intro-text { opacity: 1; }
-
-      /* ------------------
-         Hero
-      ------------------ */
-      .hero { padding: 4rem 2rem; text-align: center; color: var(--zwart); }
-      .hero h2 { font-size: 3rem; margin-bottom: 0.5rem; }
-
-      /* ------------------
-         Panels
-      ------------------ */
-      .panel { padding: 4rem 2rem; display: flex; justify-content: center; align-items: center; }
-      .about, .projects, .contact { background: transparent; }
-      .content {
-        max-width: 700px;
-        background: rgba(255,255,255,0.8);
-        backdrop-filter: blur(4px);
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      }
-
-      /* ------------------
-         Project rows
-      ------------------ */
-   .project-grid {
-  position: relative;
-  padding: 4rem 2rem;
-  height: 800px; /* was 700px, nu iets ruimer */
-}
-
-
-.project-card {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.project-card img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-}
-
-.project-card span {
-  margin-top: 0.5rem;
-  font-weight: 600;
-  color: var(--zwart);
-}
-
-/* Grotere blokken */
-.project-card.big img {
-  width: 300px;
-  height: 300px;
-}
-
-
-.project-card:hover {
-  transform: scale(1.05);
-}
-
-.project-card img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
-}
-
-.project-card span {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--zwart);
-}
-
-/* Responsiveness */
-@media (max-width: 600px) {
-  .project-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.cube {
-  margin-top: 2rem; /* voeg dit toe */
-  width: 150px;
-  height: 150px;
-  transform-style: preserve-3d;
-  animation: rotateCube 10s infinite linear;
-}
-
-.panel.about {
-  margin-top: 6rem; /* nieuw: duwt de hele 'Over mij'-sectie omlaag */
-}
-
-
-
-      /* ------------------
-         Modal
-      ------------------ */
-      .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 2rem; }
-      .modal-content { background: var(--wit); padding: 2rem; max-width: 800px; max-height: 90vh; overflow-y: auto; border-radius: 12px; position: relative; }
-      .close { font-size: 2rem; cursor: pointer; position: absolute; right: 1rem; top: 0.5rem; }
-
-      footer { background: rgba(0,0,0,0.85); color: var(--wit); text-align: center; padding: 1rem; margin-top: auto; }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .project-row img, .project-row .project-info { width: 100%; }
-        .project-row.left, .project-row.right { flex-direction: column; }
-      }
-
-
-@media (max-width: 768px) {
-  .intro {
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .half {
-    width: 50vw;
-    height: 100vh;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    transform: none !important;
-    position: relative !important;
-  }
-
-  .intro-text {
-    position: absolute;
-    bottom: 8%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1.1rem;
-    padding: 0.75rem 1rem;
-    text-align: center;
-    background: rgba(255,255,255,0.85);
-    border-radius: 12px;
-    z-index: 3;
-    width: 90%;
-    max-width: 300px;
-  }
-}
-
-
-
-
-    </style>
-  </head>
-  <body>
-    <div class="wrapper">
-      <!-- Navigatie -->
-      <nav>
-<img src="img/avatar.svg" alt="Luiz Avatar" style="height: 40px;">
-        <ul>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#about">Over mij</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+    /* Responsive */
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr 1fr} .hero-grid{grid-template-columns:1fr} .about{grid-template-columns:1fr} }
+    @media (max-width: 560px){ .links{display:none} .grid{grid-template-columns:1fr} .thumbs img{height:56px} }
+    :focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:10px}
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner container">
+      <div class="brand">Luiz Fernandez</div>
+      <nav class="links" aria-label="Hoofdnavigatie">
+        <a href="#projects">Projecten</a>
+        <a href="#about">Over mij</a>
+        <a class="pill" href="#contact">Contact</a>
       </nav>
-
-      <!-- Intro -->
-      <section class="intro" id="intro">
-  <div class="half left"></div>
-  <div class="half right"></div>
-  <div class="intro-text">Luiz Fernandez – Grafisch ontwerper in opleiding</div>
-</section>
-
-
-      <!-- Hero -->
-      <header class="hero">
-        <h2>Projects</h2>
-        <p>Dit zijn verschillende projecten die ik heb gemaakt in mijn schoolcarrière.</p>
-      </header>
-
-      <!-- Project Grid -->
-<section id="projects" class="project-grid">
-  <!-- PROJECT 1 -->
-  <div class="project-card big" style="top: 0; left: 10%;" onclick="openProject('project1')">
-    <img src="img/postcard.svg" alt="Project 1">
-    <span>Postkaart “Lijn & Emotie”</span>
-  </div>
-
-  <!-- PROJECT 2 -->
-  <div class="project-card big" style="top: 220px; right: 10%;" onclick="openProject('project2')">
-    <img src="img/project4.png" alt="Project 2">
-    <span>Emotionele Visuals</span>
-  </div>
-
-  <!-- PROJECT 3 (als je nog iets wil toevoegen later) -->
-  <div class="project-card big" style="top: 500px; left: 10%;" onclick="openProject('project3')">
-    <img src="img/3D_img1_luiz.png" alt="Project 3">
-    <span>3D Motion Study</span>
-  </div>
-</section>
-
-
-
-
-
-      <!-- About -->
-<section id="about" class="panel about">
-  <div class="content" style="position: relative; overflow: hidden;">
-    <h2 style="text-align: center;">Over mij</h2>
-    <p style="text-align: center; font-size: 1.1rem; line-height: 1.6; max-width: 600px; margin: 0 auto 2rem auto;">
-      Hey! Ik ben Luiz, een 19-jarige grafisch ontwerper met een zwak voor kleur, lijnen en alles wat een beetje raar en speels is. Ik combineer graag traditionele technieken met digitale tools en experimenteer met visuele ritmes, emoties en 3D. 
-    </p>
-    
-    <!-- 3D draaiende kubus animatie -->
-    <div style="width: 200px; height: 200px; margin: 0 auto; perspective: 800px;">
-      <div style="
-        width: 100%;
-        height: 100%;
-        transform-style: preserve-3d;
-        animation: spinCube 10s infinite linear;
-        position: relative;
-      ">
-        <div style="
-          position: absolute;
-          width: 100%; height: 100%;
-          background: var(--groen);
-          transform: rotateY(0deg) translateZ(100px);
-        "></div>
-        <div style="
-          position: absolute;
-          width: 100%; height: 100%;
-          background: var(--roze);
-          transform: rotateY(90deg) translateZ(100px);
-        "></div>
-        <div style="
-          position: absolute;
-          width: 100%; height: 100%;
-          background: var(--geel);
-          transform: rotateY(180deg) translateZ(100px);
-        "></div>
-        <div style="
-          position: absolute;
-          width: 100%; height: 100%;
-          background: var(--rood);
-          transform: rotateY(-90deg) translateZ(100px);
-        "></div>
-        <div style="
-          position: absolute;
-          width: 100%; height: 100%;
-          background: var(--zwart);
-          transform: rotateX(90deg) translateZ(100px);
-        "></div>
-        <div style="
-          position: absolute;
-          width: 100%; height: 100%;
-          background: var(--wit);
-          transform: rotateX(-90deg) translateZ(100px);
-        "></div>
-      </div>
     </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-    <style>
-      @keyframes spinCube {
-        from { transform: rotateX(0deg) rotateY(0deg); }
-        to { transform: rotateX(360deg) rotateY(360deg); }
-      }
-    </style>
-  </div>
-</section>
+  </header>
 
-      
-
-      <!-- Contact -->
-      <section id="contact" class="panel contact">
-        <div class="content">
-          <h2>Contact</h2>
-          <p>Stuur me een DM op <a href="https://www.instagram.com/luiz.frndz/" target="_blank">Instagram</a> of een mailtje naar easyluiz.f@gmail.com</p>
+  <main>
+    <section class="hero container" id="top">
+      <div class="hero-grid">
+        <div>
+          <span class="tag">Grafisch ontwerper in opleiding</span>
+          <h1>Ik maak speelse, kleurrijke visuals met <em>lijn, ritme</em> en een snuifje 3D.</h1>
+          <p class="sub">Hieronder vind je mijn data-reeks en 3D motion studies, en binnekort nog meer projecten. Klik op een project om de beelden te bekijken.</p>
+          <div class="cta">
+            <a class="btn" href="#projects">Bekijk projecten</a>
+            <a class="btn outline" href="#contact">Neem contact op</a>
+          </div>
         </div>
-      </section>
-
-      <footer>
-        <p>&copy; 2025 Luiz Fernandez</p>
-      </footer>
-    </div>
-
-    <!-- Project modal -->
-    <div id="projectModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeProject()">&times;</span>
-        <div id="projectDetails"></div>
+        <aside class="hero-card">
+          <img class="avatar" src="img/avatar.svg" alt="Portret van Luiz Fernandez" loading="lazy" width="640" height="640" />
+        </aside>
       </div>
+    </section>
+
+    <section id="projects" class="container">
+      <div class="section-head">
+        <h2>Projecten</h2>
+        <p class="muted">Klik op een project om meer beelden te zien.</p>
+      </div>
+      <div id="projectGrid" class="grid" role="list"></div>
+    </section>
+
+    <section id="about" class="container">
+      <div class="section-head"><h2>Over mij</h2></div>
+      <div class="about">
+        <div class="panel">
+          <p>Ik ben een ontwerper met een zwak visuele ritmes, emoties vangen in vormen en experimenteren met 3D. Buiten school maak ik kleine animaties en posters voor vrienden en ik volg stage bij Tim Van Aelst.</p>
+          <p class="muted">Tools: Adobe Illustrator, Photoshop, Indesign, Figma, Premiere Pro, VS Code, After Effects, Blender.</p>
+        </div>
+        <div class="panel">
+          <ul style="list-style:none; padding:0; margin:0; display:grid; gap:10px">
+            <li><strong>Regio:</strong> Antwerpen (BE)</li>
+            <li><strong>Beschikbaar voor:</strong> stages, freelance kleine opdrachten</li>
+            <li><strong>Interesse in:</strong> posterdesign, Branding, motion graphics</li>
+            <li><strong>Taal:</strong> Nederlands, Engels, Frans</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <div class="section-head"><h2>Contact</h2></div>
+      <p class="muted">Stuur me gerust een bericht. Ik antwoord meestal dezelfde dag.</p>
+      <div class="contact-actions" style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn" href="mailto:easyluiz.f@gmail.com" aria-label="Mail Luiz">E-mail</a>
+        <a class="btn outline" href="https://www.instagram.com" target="_blank" rel="noopener">Instagram DM</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container" role="contentinfo" aria-label="Footer">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 0">
+      <small class="muted">© <span id="year"></span> Luiz Fernandez</small>
+      <a class="pill" href="#top" aria-label="Terug naar boven">Naar boven ↑</a>
     </div>
+  </footer>
 
-    <script>
-      /* Intro-animatie */
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          document.getElementById('intro').classList.add('loaded');
-        }, 500);
+  <!-- Lightbox / Case view -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Project detail">
+    <article class="case" aria-labelledby="caseTitle">
+      <header>
+        <div class="title">
+          <div>
+            <div class="pill" id="caseTag">—</div>
+            <h3 id="caseTitle" style="margin:6px 0 0">—</h3>
+          </div>
+          <div class="controls">
+            <button class="navbtn" id="prevImg" aria-label="Vorige afbeelding">←</button>
+            <button class="navbtn" id="nextImg" aria-label="Volgende afbeelding">→</button>
+            <button class="close" id="closeBox" aria-label="Sluit detail">✕</button>
+          </div>
+        </div>
+      </header>
+      <div class="viewer">
+        <div class="stage"><img id="stageImg" alt="Projectafbeelding" /></div>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+      <footer>
+        <small class="muted" id="caseCaption">—</small>
+      </footer>
+    </article>
+  </div>
+
+  <script>
+    // === DATA ===
+    const PROJECTS = [
+      {
+        id: 'postkaart',
+        title: 'Postkaart – Data-reeks',
+        tag: 'Grafisch ontwerp',
+        cover: 'img/postcard.svg',
+        images: [
+          {src: 'img/dataei.png', caption: 'Data – ei'},
+          {src: 'img/datagsm.png', caption: 'Data – gsm'},
+          {src: 'img/dataklok.png', caption: 'Data – klok'},
+          {src: 'img/dataschoen.png', caption: 'Data – schoen'},
+          {src: 'img/datawijn.png', caption: 'Data – wijn'}
+        ]
+      },
+      {
+        id: '3d',
+        title: '3D Motion Study',
+        tag: '3D / Motion',
+        cover: 'img/3D_img1_luiz.png',
+        images: [
+          {src: 'img/3D_img1_luiz.png', caption: '3D – still 1'},
+          {src: 'img/3D2.png', caption: '3D – still 3'},
+          {src: 'img/3D3.png', caption: '3D – still 4'}
+        ]
+      },
+      
+    ];
+
+    const qs = s => document.querySelector(s);
+    const el = (tag, attrs={}) => Object.assign(document.createElement(tag), attrs);
+
+    // Render project grid
+    const grid = qs('#projectGrid');
+    PROJECTS.forEach(p => {
+      const card = el('article', {className: 'card', role: 'listitem'});
+      const img = el('img', {className:'cover', src: p.cover, alt: `${p.title} – cover`, loading: 'lazy'});
+      const body = el('div', {className: 'body'});
+      const pill = el('div', {className: 'pill', textContent: p.tag});
+      const h3 = el('h3', {textContent: p.title, style: 'margin:8px 0 4px'});
+      const meta = el('p', {className:'muted', style:'margin:0'});
+      meta.textContent = `${p.images.length} beelden. `;
+      const a = el('a', {href: `#case/${p.id}`, textContent: 'Bekijk meer', 'aria-label': `Open ${p.title}`});
+      body.append(pill, h3, meta, a);
+      card.append(img, body);
+      card.addEventListener('click', (e)=>{ if(e.target.tagName !== 'A'){ location.hash = `#case/${p.id}`; } });
+      grid.append(card);
+    });
+
+    // Lightbox logic with hash routing (#case/id)
+    const lightbox = qs('#lightbox');
+    const stageImg = qs('#stageImg');
+    const caseTitle = qs('#caseTitle');
+    const caseTag = qs('#caseTag');
+    const caseCaption = qs('#caseCaption');
+    const thumbs = qs('#thumbs');
+    const prevBtn = qs('#prevImg');
+    const nextBtn = qs('#nextImg');
+    const closeBtn = qs('#closeBox');
+
+    let activeProject = null; let index = 0;
+
+    function openCase(id){
+      activeProject = PROJECTS.find(p=>p.id===id);
+      if(!activeProject) return;
+      caseTitle.textContent = activeProject.title;
+      caseTag.textContent = activeProject.tag;
+      buildThumbs();
+      show(0);
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    function buildThumbs(){
+      thumbs.innerHTML='';
+      activeProject.images.forEach((img,i)=>{
+        const t = el('img',{src: img.src, alt: `${activeProject.title} thumbnail ${i+1}`, loading:'lazy'});
+        t.addEventListener('click',()=>show(i));
+        thumbs.append(t);
       });
+    }
+    function show(i){
+      index = (i+activeProject.images.length)%activeProject.images.length;
+      const item = activeProject.images[index];
+      stageImg.src = item.src; stageImg.alt = `${activeProject.title} – beeld ${index+1}`;
+      caseCaption.textContent = item.caption || '';
+      [...thumbs.children].forEach((n,ni)=> n.classList.toggle('active', ni===index));
+      history.replaceState(null,'', `#case/${activeProject.id}/${index+1}`);
+    }
+    function closeCase(){
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden','true');
+      document.body.style.overflow='auto';
+      location.hash = '#projects';
+    }
 
-      const content = {
-  project1: `
-    <h2>Postkaart "Lijn & Emotie"</h2>
-    <p>In dit project visualiseerde ik mijn gemoedstoestand via kleurvlakken en lijnstructuren. Hieronder zie je een selectie van 5 beelden uit dit proces.</p>
-    <img src="img/dataei.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-    <img src="img/datawijn.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-    <img src="img/dataschoen.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-    <img src="img/dataklok.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-    <img src="img/datagsm.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-  `,
-  project2: `
-    <h2>3D Motion Study</h2>
-    <p>Een motion-exploratie met neonlicht en architectuur in een 3D-omgeving.</p>
-    <video controls style="width:100%; margin-top:1rem; border-radius:12px;">
-      <source src="img/architectuur_luiz.mp4" type="video/mp4">
-      Je browser ondersteunt dit videoformaat niet.
-    </video>
-  `,
-  project3: `
-    <h2>Datagedreven Vormexperiment</h2>
-    <p>In dit project heb ik 3 objecten omgezet naar vorm en lijnstructuur op basis van data. Het resultaat is een reeks abstracte grafische visualisaties.</p>
-    <img src="img/3D1.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-    <img src="img/3D2.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-    <img src="img/3D3.png" style="width:100%; margin-top:1rem; border-radius:12px;">
-  `
-};
+    window.addEventListener('hashchange',()=>{
+      const m = location.hash.match(/^#case\/([^\/]+)(?:\/(\d+))?$/);
+      if(m){ openCase(m[1]); if(m[2]) show(parseInt(m[2])-1); }
+      else if(lightbox.classList.contains('open')){ closeCase(); }
+    });
 
-function openProject(id) {
-  document.getElementById("projectDetails").innerHTML = content[id] || "<p>Project niet gevonden.</p>";
-  document.getElementById("projectModal").style.display = "flex";
-}
+    prevBtn?.addEventListener('click',()=>show(index-1));
+    nextBtn?.addEventListener('click',()=>show(index+1));
+    closeBtn?.addEventListener('click', closeCase);
+    lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox) closeCase(); });
+    document.addEventListener('keydown', (e)=>{
+      if(!lightbox.classList.contains('open')) return;
+      if(e.key==='Escape') closeCase();
+      if(e.key==='ArrowLeft') show(index-1);
+      if(e.key==='ArrowRight') show(index+1);
+    });
 
-function closeProject() {
-  document.getElementById("projectModal").style.display = "none";
-}
+    // Deep link support on load
+    if(location.hash.startsWith('#case/')){
+      const m = location.hash.match(/^#case\/([^\/]+)(?:\/(\d+))?$/);
+      if(m){ openCase(m[1]); if(m[2]) show(parseInt(m[2])-1); }
+    }
 
-  
-    </script>
-  </body>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
